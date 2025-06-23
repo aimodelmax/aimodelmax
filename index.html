@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI ModelMax | AI Model Domination</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <style>
+    /* --- Reset and base --- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+    body {
+      background-color: #0e0e0e;
+      color: #fff;
+      line-height: 1.6;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    /* --- Navbar --- */
+    nav {
+      position: sticky;
+      top: 0;
+      background-color: #121212;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 30px;
+      z-index: 1001;
+      transition: box-shadow 0.3s ease;
+    }
+    nav.scrolled {
+      box-shadow: 0 2px 10px rgba(255, 75, 43, 0.6);
+      background-color: #161616;
+    }
+    nav h1 {
+      font-size: 24px;
+      color: #fff;
+      user-select: none;
+    }
+    nav ul {
+      display: flex;
+      gap: 20px;
+    }
+    nav ul li {
+      list-style: none;
+    }
+    nav ul li a {
+      color: #ccc;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+    nav ul li a:hover {
+      color: #ff4b2b;
+    }
+
+    /* --- Mobile hamburger --- */
+    #mobile-menu {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      user-select: none;
+      width: 25px;
+      height: 20px;
+      justify-content: space-between;
+    }
+    #mobile-menu span {
+      display: block;
+      height: 3px;
+      background: #fff;
+      border-radius: 2px;
+      transition: 0.3s ease;
+    }
+    #mobile-menu.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    #mobile-menu.active span:nth-child(2) {
+      opacity: 0;
+    }
+    #mobile-menu.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+    @media (max-width: 768px) {
+      nav ul {
+        position: fixed;
+        top: 70px;
+        right: -100%;
+        background: #121212;
+        flex-direction: column;
+        width: 200px;
+        padding: 30px;
+        height: calc(100vh - 70px);
+        gap: 30px;
+        transition: right 0.3s ease;
+        border-left: 1px solid #ff4b2b;
+      }
+      nav ul.active {
+        right: 0;
+      }
+    }
+
+    /* --- Header --- */
+    header {
+      padding: 80px 20px;
+      max-width: 1000px;
+      margin: auto;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+    header.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    header h2 {
+      font-size: 42px;
+      font-weight: 800;
+      background: linear-gradient(to right, #ff416c, #ff4b2b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 20px;
+      user-select: none;
+    }
+    header p {
+      font-size: 20px;
+      color: #bbb;
+      margin-bottom: 30px;
+    }
+    .cta-button {
+      padding: 15px 30px;
+      background: linear-gradient(to right, #ff416c, #ff4b2b);
+      color: #fff;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 18px;
+      transition: background 0.3s ease;
+    }
+    .cta-button:hover {
+      background: linear-gradient(to right, #ff4b2b, #ff416c);
+    }
+
+    /* --- Sections --- */
+    section.section {
+      padding: 60px 20px;
+      max-width: 900px;
+      margin: auto;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+    section.section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    section.section h3 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #f0f0f0;
+      user-select: none;
+    }
+    section.section ul {
+      list-style: none;
+      padding-left: 20px;
+    }
+    section.section ul li {
+      margin-bottom: 10px;
+      position: relative;
+      padding-left: 24px;
+      user-select: none;
+    }
+    section.section ul li::before {
+      content: '🔥';
+      position: absolute;
+      left: 0;
+      color: #ff4b2b;
+    }
+
+    /* --- Testimonials --- */
+    #testimonials div {
+      background:#1a1a1a;
+      border-radius:12px;
+      padding:20px;
+      max-width:300px;
+      flex:1;
+      margin-bottom: 20px;
+    }
+    #testimonials img {
+      width:80px;
+      height:80px;
+      border-radius:50%;
+      object-fit:cover;
+      margin-bottom:15px;
+      user-select: none;
+    }
+    #testimonials {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    /* --- FAQ --- */
+    .faq-item {
+      background: #1a1a1a;
+      margin: 15px 0;
+      border-radius: 12px;
+      overflow: hidden;
+      user-select: none;
+    }
+    .faq-question {
+      background: #222;
+      color: #ff4b2b;
+      font-weight: 700;
+      border: none;
+      width: 100%;
+      padding: 18px 24px;
+      text-align: left;
+      cursor: pointer;
+      font-size: 18px;
+      transition: background 0.3s ease;
+    }
+    .faq-question:hover {
+      background: #ff4b2b;
+      color: #121212;
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      background: #111;
+      color: #ddd;
+      padding: 0 24px;
+      transition: max-height 0.35s ease;
+    }
+    .faq-answer p {
+      padding: 15px 0;
+    }
+    .faq-item.active .faq-answer {
+      max-height: 300px;
+    }
+
+    /* --- Footer --- */
+    footer {
+      padding: 20px;
+      text-align: center;
+      background-color: #121212;
+      color: #999;
+      margin-top: 60px;
+      user-select: none;
+    }
+
+    /* --- Email Popup Overlay --- */
+    #email-popup {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.85);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10010;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+    #email-popup.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    #email-popup .popup-content {
+      background: #181818;
+      padding: 40px;
+      border-radius: 16px;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 0 20px #ff4b2baa;
+    }
+    #email-popup h2 {
+      color: #ff4b2b;
+      margin-bottom: 20px;
+      user-select: none;
+    }
+    #email-popup input[type="email"] {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      margin-bottom: 20px;
+    }
+    #email-popup button {
+      background: #ff4b2b;
+      border: none;
+      color: #fff;
+      padding: 12px 30px;
+      font-weight: 700;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s ease;
+    }
+    #email-popup button:hover {
+      background: #ff693f;
+    }
+    #email-popup .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 28px;
+      color: #ff4b2b;
+      cursor: pointer;
+      user-select: none;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="navbar">
+    <h1>AI ModelMax</h1>
+    <div id="mobile-menu" aria-label="Toggle menu" role="button" tabindex="0">
+      <span></span><span></span><span></span>
+    </div>
+    <ul id="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+    </ul>
+  </nav>
+
+  <header id="home" class="fade-section">
+    <h2>🔥 DOMINATE ONLYFANS WITHOUT SHOWING YOUR FACE</h2>
+    <p>The Underground System to Create, Launch & Monetize Your Own AI Model That Sells<br />You don’t need to be hot. You need to be smart.</p>
+    <button class="cta-button" id="open-email-popup">Launch My AI OnlyFans Model Now</button>
+  </header>
+
+  <section class="section fade-section">
+    <h3>HERE'S WHAT YOU GET INSIDE 🧠💰</h3>
+    <ul>
+      <li>Create Your Own AI-OnlyFans Model</li>
+      <li>Plug & Play Sales Funnels</li>
+      <li>Monetization Playbook</li>
+    </ul>
+  </section>
+
+  <section class="section fade-section">
+    <h3>WHY THIS WORKS (AND WHY IT’S DIFFERENT)</h3>
+    <p>🚫 NO BULLSH*T – This isn’t based on trends or going viral. It’s engineered for cashflow through real buyer psychology, conversion copy, and plug-and-play tools.</p>
+  </section>
+
+  <section class="section fade-section" id="testimonials">
+    <h3>WHAT OUR USERS SAY</h3>
+    <div>
+      <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Sam D." />
+      <p>“I made $7,213 in my first 18 days. I don’t even run the account anymore.”</p>
+      <strong>— Sam D., 24</strong>
+    </div>
+    <div>
+      <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Bia.ai" />
+      <p>“Got my first whale in 72 hours. He dropped $400 the first night.”</p>
+      <strong>— Bia.ai</strong>
+    </div>
+    <div>
+      <img src="https://randomuser.me/api/portraits/men/65.jpg" alt="K Chicago" />
+      <p>“This is the first hustle that didn’t waste my time.”</p>
+      <strong>— K, Chicago</strong>
+    </div>
+  </section>
+
+  <section class="section fade-section" id="faq">
+    <h3>Frequently Asked Questions</h3>
+    <div class="faq-item">
+      <button class="faq-question">Is this system beginner-friendly?</button>
+      <div class="faq-answer">
+        <p>Absolutely. No technical or modeling experience is needed. We guide you step-by-step.</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question">Do I need to show my face or be “hot”?</button>
+      <div class="faq-answer">
+        <p>Nope! The entire system is designed to work without you showing your face at all.</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question">How do I monetize my AI model?</button>
+      <div class="faq-answer">
+        <p>We teach subscription stacking, PPV messages, upsell sequences, and other proven tactics.</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question">Is there support if I get stuck?</button>
+      <div class="faq-answer">
+        <p>Yes, our Mentorship plan includes 1-on-1 calls and email support to help you succeed.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 AI ModelMax. All rights reserved.
+  </footer>
+
+  <!-- Email capture popup -->
+  <div id="email-popup" role="dialog" aria-modal="true" aria-labelledby="popup-title" aria-describedby="popup-desc">
+    <div class="popup-content">
+      <div class="close-btn" id="close-popup" tabindex="0" role="button" aria-label="Close email signup popup">&times;</div>
+      <h2 id="popup-title">Get Early Access</h2>
+      <p id="popup-desc">Sign up for exclusive updates and launch info.</p>
+      <input type="email" id="email-input" placeholder="Enter your email" aria-label="Email address" />
+      <button id="submit-email">Notify Me</button>
+    </div>
+  </div>
+
+  <script>
+    // Sticky nav shadow on scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // Fade-in on scroll for sections
+    const faders = document.querySelectorAll('.fade-section');
+    const appearOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+
+    const appearOnScroll = new IntersectionObserver(function (entries, appearOnScroll) {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('visible');
+        appearOnScroll.unobserve(entry.target);
+      });
+    }, appearOptions);
+
+    faders.forEach((fader) => {
+      appearOnScroll.observe(fader);
+    });
+
+    // FAQ accordion toggle
+    document.querySelectorAll('.faq-question').forEach((button) => {
+      button.addEventListener('click', () => {
+        const faqItem = button.parentElement;
+        faqItem.classList.toggle('active');
+      });
+    });
+
+    // Mobile menu toggle
+    const mobileMenu = document.getElementById('mobile-menu');
+    const navLinks = document.getElementById('nav-links');
+    mobileMenu.addEventListener('click', () => {
+      mobileMenu.classList.toggle('active');
+      navLinks.classList.toggle('active');
+    });
+    mobileMenu.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        mobileMenu.classList.toggle('active');
+        navLinks.classList.toggle('active');
+      }
+    });
+
+    // Email popup controls
+    const emailPopup = document.getElementById('email-popup');
+    const openPopupBtn = document.getElementById('open-email-popup');
+    const closePopupBtn = document.getElementById('close-popup');
+    const submitEmailBtn = document.getElementById('submit-email');
+    const emailInput = document.getElementById('email-input');
+
+    openPopupBtn.addEventListener('click', () => {
+      emailPopup.classList.add('active');
+    });
+
+    closePopupBtn.addEventListener('click', () => {
+      emailPopup.classList.remove('active');
+    });
+    closePopupBtn.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        emailPopup.classList.remove('active');
+      }
+    });
+
+    // Submit email (placeholder)
+    submitEmailBtn.addEventListener('click', () => {
+      const email = emailInput.value.trim();
+      if (email && email.includes('@')) {
+        alert(`Thanks! We'll notify you at ${email}`);
+        emailInput.value = '';
+        emailPopup.classList.remove('active');
+      } else {
+        alert('Please enter a valid email address.');
+      }
+    });
+  </script>
+</body>
+</html>
